@@ -1,23 +1,36 @@
-# Ideas
+# Our Vision
 
-Trash collection routing
-Request pcikups
-Image recognition for pickups
+The HopHacksDreamTeam wants to create an app for social good. We see primary
+avenues as enabling local muicpalities to be smarter and better, or to directly
+empower the people of Baltimore to have better experience.
 
-Chatbot to help people through enrollment
-Baltimore themed
-Text messaging
+This is a list of our initial ideas, and our thought process.
 
-Placing routing for police traffic, fire
+## Initial Idea Phase
 
-parking for balitmore
+  - [ ] Trash collection routing
+   - Request pcikups
+   - Image recognition for pickups
 
-AR for balitmore murals
-Baltimore love project
+  - [ ] Chatbot to help people through enrollment
+   - Baltimore themed
+   - Text messaging
+   - Chat app
 
-Process for mural approval
+  - [ ] Placing routing for police traffic, fire
 
-suggest new best routes to ease congestion
-ther,
+  - [ ] Parking for balitmore
 
-Mesh networks.
+  - [x] AR for balitmore murals
+   - Baltimore love project
+   - Process for mural approval
+
+  - [ ] Suggest new best routes to ease congestion
+   - Simulate traffic
+   - Determine what bus routes, trains would ease congestion
+
+  - [ ] Smart Mesh networks.
+
+## And so it was decided.
+
+Let there be code.
