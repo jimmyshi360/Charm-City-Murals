@@ -62,12 +62,16 @@
       	artists = artists.substring(0, last - 1) + " and " + artists.substring(last + 1)
       }
       var image = feature.properties.images
-      image = image.substring(2, image.length-2)
+
+      if (image.includes("/") == false) {
+      	image = "https://okeducationtruths.files.wordpress.com/2016/09/not-pictured.png?w=285&h=300"
+      } else {
+      	image = image.substring(2, image.length-2)
+      }
 
       popup
         .setLngLat(feature.geometry.coordinates)
-        //.setHTML('<h3>' + feature.properties.address + '</h3><p>' + "Created by " + artists + '</p>')
-        .setHTML('<img src="' + image + '" style="width:300px;height:200px;">')
+        .setHTML('<h3>' + feature.properties.address + '</h3><p>' + "Created by " + artists + '</p>' + '<img src="' + image + '" alt="Not pictured." style="width:300px;height:200px;">')
         .setLngLat(feature.geometry.coordinates)
         .addTo(map);
     });
