@@ -1,23 +1,16 @@
 import cv2
 import numpy as np
 
-#path = 'images/paper.jpg'
-#path = 'images/0.jpg'   # works
-#path = 'images/1.jpg'   # works
-#path = 'images/2.jpg'   # somewhat works
-#path = 'images/3.jpg'  # works
-#path = 'images/5.jpg'
-#path = 'images/6.jpg'
-path = 'images/7.jpg'   # works
-
-
 # for wall
 #path = 'wall-images/0.jpg' # works
 #path = 'wall-images/1.jpg'
 #path = 'wall-images/2.jpg' 
-#path = 'wall-images/3.jpg' 
-#path = 'wall-images/4.jpg' 
-#path = 'wall-images/5.jpg' 
+path = 'wall-images/3.jpg' 
+#path = 'wall-images/4.jpg'   # could use work
+#path = 'wall-images/5.jpg'   # somewhat works
+#path = 'wall-images/6.jpg'  # somewhat works
+#path = 'wall-images/7.jpg'   
+#path = 'wall-images/8.jpg'   # could use work
 
 img = cv2.imread(path)
 img = cv2.resize(img,(600,400))
@@ -25,11 +18,11 @@ origImg = img.copy()
 imgray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 #origImgGray = imgray.copy()
 #imgray = cv2.GaussianBlur(imgray,(9,9),0)
-thresh = cv2.Canny(imgray,100,200)
 #ret,thresh = cv2.threshold(imgray,127,255,cv2.THRESH_BINARY)
+thresh = cv2.Canny(imgray,10,200)
 
 # Morphology transform
-kernel = np.ones((9,9),np.uint8)
+kernel = np.ones((29,29),np.uint8)
 thresh = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel)
 
 img2, contours, hierarchy = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
@@ -48,6 +41,17 @@ def rectify(h):
 	hnew[3] = h[np.argmax(diff)]
 
 	return hnew
+
+def defineLineBounds(imgUse,cnt):
+	# This code is for line fitting
+	img = imgUse.copy()
+	rows,cols = img.shape[:2]
+	[vx,vy,x,y] = cv2.fitLine(cnt, cv2.DIST_L2,0,0.01,0.01)
+	lefty = int((-x*vy/vx) + y)
+	righty = int(((cols-x)*vy/vx)+y)
+	cv2.line(img,(cols-1,righty),(0,lefty),(255,0,0),2)
+
+	return img
 
 
 def fourCorners(cnt):
@@ -73,24 +77,32 @@ def fourCorners(cnt):
 		
 		cv2.drawContours(origImg,[approx],0,(0,255,0),2)
 
+		# This code is for line fitting
+		rows,cols = img.shape[:2]
+		[vx,vy,x,y] = cv2.fitLine(cnt, cv2.DIST_L2,0,0.01,0.01)
+		lefty = int((-x*vy/vx) + y)
+		righty = int(((cols-x)*vy/vx)+y)
+		cv2.line(origImg,(cols-1,righty),(0,lefty),(255,0,0),2)
+
+
+
 		cv2.imshow('res',origImg)
 		cv2.imshow('dst',dst)
 		cv2.imshow('test',img2)
 		cv2.waitKey(0)
-		return True
+		
 	else:
 		print 'No corners detected'
-
-		#cv2.drawContours(origImg,[approx],0,(0,0,255),2)
 		cnt = approx
-		print cv2.contourArea(cnt)
-		X,Y,W,H = cv2.boundingRect(cnt)
-		cv2.rectangle(origImg,(X,Y),(X+W,Y+H),(0,255,0),2)
 
-		cv2.imshow('res',origImg)
+		res = defineLineBounds(origImg,cnt)
+
+		cv2.imshow('res',res)
 		cv2.imshow('test',img2)
 		cv2.waitKey(0)
-		return True
+
+
+	return True
 
 
 def slantCntDetect(cnt):
