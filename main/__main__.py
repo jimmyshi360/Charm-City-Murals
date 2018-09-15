@@ -7,11 +7,11 @@ def canvas():
     return render_template("canvas.html")
 
 @app.route("/map")
-def canvas():
+def map_page():
     return render_template("map.html")
 
 @app.route("/")
-def canvas():
+def index():
     return render_template("index.html")
 
 
