@@ -62,7 +62,9 @@ def defineLineBounds(imgUse,cnt):
 	
 	# DEALING WITH UPPER BOUND
 	imgT = imgUse.copy()[0:imgUse.shape[0]/2,0:imgUse.shape[1]]
-	cv2.imshow('upper',imgT)
+
+	upperImg = imgT
+
 	thresh = imagePreprocess(imgT)
 	contours = getContours(thresh)
 
@@ -85,7 +87,7 @@ def defineLineBounds(imgUse,cnt):
 	lowerBound = imgUse.shape[0]/2
 
 	imgT = imgUse.copy()[lowerBound:imgUse.shape[0],0:imgUse.shape[1]]
-	cv2.imshow('lower',imgT)
+	lowerImg = imgT
 
 	thresh = imagePreprocess(imgT)
 	#imgray = cv2.cvtColor(imgT, cv2.COLOR_BGR2GRAY)
@@ -93,7 +95,8 @@ def defineLineBounds(imgUse,cnt):
 	#origImgGray = imgray.copy()
 	#ret,thresh = cv2.threshold(imgray,127,255,cv2.THRESH_BINARY)
 
-	cv2.imshow('lowerThresh',thresh)
+	lowerThresh = thresh
+
 	contours = getContours(thresh)
 
 	rows,cols = imgT.shape[:2]
@@ -121,6 +124,12 @@ def defineLineBounds(imgUse,cnt):
 	# Drawing closing lines
 	cv2.line(img,upperLeft,lowerLeft,(0,255,0),2)
 	cv2.line(img,upperRight,lowerRight,(0,255,0),2)
+
+
+
+	#cv2.imshow('lowerThresh',thresh)
+	#cv2.imshow('upper',upperImg)
+	#cv2.imshow('lower',lowerImg)
 
 	cv2.imshow('warped',dst)
 
