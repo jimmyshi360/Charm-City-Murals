@@ -267,3 +267,36 @@ footer{
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+.logo{
+position:absolute;
+  top: 0;
+  left:0;
+
+ animation: example1 1.5s ease;
+}
+/* Move it (define the animation) */
+@keyframes example1 {
+ 0%   {
+ transform: translatey(-200%);
+ }
+ 100% {
+ transform: translatey(0%);
+ }
+}
+
+.ml16 {
+  color: #ffffff;
+  padding: 40px 0;
+  font-weight: 800;
+  font-size: 3em;
+  text-transform: uppercase;
+  letter-spacing: 0.5em;
+  overflow: hidden;
+  padding-left:3em
+}
+
+.ml16 .letter {
+  display: inline-block;
+  line-height: 1em;
+}
