@@ -55,10 +55,19 @@
       }
 
       var feature = features[0];
+      var artists = feature.properties.artists
+      artists = artists.substring(2, artists.length - 2)
+      if (artists.includes(",") == true) {
+      	var last = artists.lastIndexOf(",")
+      	artists = artists.substring(0, last - 1) + " and " + artists.substring(last + 1)
+      }
+      var image = feature.properties.images
+      image = image.substring(2, image.length-2)
 
       popup
         .setLngLat(feature.geometry.coordinates)
-        .setHTML('<h3>' + feature.properties.address + '</h3><p>' + feature.properties.artists + '</p>')
+        //.setHTML('<h3>' + feature.properties.address + '</h3><p>' + "Created by " + artists + '</p>')
+        .setHTML('<img src="' + image + '" style="width:300px;height:200px;">')
         .setLngLat(feature.geometry.coordinates)
         .addTo(map);
     });
