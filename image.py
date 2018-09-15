@@ -2,13 +2,13 @@ import cv2
 import numpy as np
 
 #path = 'images/paper.jpg'
-#path = 'images/0.jpg'
-#path = 'images/1.jpg'
+#path = 'images/0.jpg'   # works
+#path = 'images/1.jpg'   # works
 #path = 'images/2.jpg'   # somewhat works
 #path = 'images/3.jpg'  # works
-#path = 'images/5.jpg'
+path = 'images/5.jpg'
 #path = 'images/6.jpg'
-path = 'images/7.jpg'
+#path = 'images/7.jpg'   # works
 
 img = cv2.imread(path)
 img = cv2.resize(img,(600,400))
@@ -52,23 +52,23 @@ def fourCorners(cnt):
 		cnt = approx
 		print cv2.contourArea(cnt)
 		X,Y,W,H = cv2.boundingRect(cnt)
-		cv2.rectangle(origImg,(X,Y),(X+W,Y+H),(0,255,0),2)
+		#cv2.rectangle(origImg,(X,Y),(X+W,Y+H),(0,255,0),2)
 
-
-		cv2.drawContours(origImg,[approx],0,(0,0,255),2)
-
-		approx = rectify(approx)
-		picHeight = origImg.shape[1]
-		picWidth = origImg.shape[0]
+		approxRec = rectify(approx)
+		picHeight = origImg.shape[0]
+		picWidth = origImg.shape[1]
 
 		pts2 = np.float32([[0,0],[picWidth,0],[picWidth,picHeight],[0,picHeight]])
-		M = cv2.getPerspectiveTransform(approx,pts2)
-		dst = cv2.warpPerspective(origImg,M,(800,800))
+		M = cv2.getPerspectiveTransform(approxRec,pts2)
+		dst = cv2.warpPerspective(origImg,M,(picWidth,picHeight))
+		
+		cv2.drawContours(origImg,[approx],0,(0,255,0),2)
 
 		cv2.imshow('res',origImg)
 		cv2.imshow('dst',dst)
 		cv2.imshow('test',img2)
 		cv2.waitKey(0)
+		return True
 	else:
 		print 'No corners detected'
 
@@ -77,6 +77,8 @@ def fourCorners(cnt):
 		cv2.imshow('res',origImg)
 		cv2.imshow('test',img2)
 		cv2.waitKey(0)
+
+
 
 def slantCntDetect(cnt):
 	rect = cv2.minAreaRect(cnt)
@@ -116,7 +118,8 @@ def cntAreaDetect(cnt):
 for cnt in contours:
 	# approximate the contour
 
-	fourCorners(cnt)
+	if fourCorners(cnt):
+		break
 	#cntAreaDetect(cnt)
 	#slantCntDetect(cnt)
 
