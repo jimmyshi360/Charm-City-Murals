@@ -26,6 +26,20 @@ thresh = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel)
 img2, contours, hierarchy = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
 contours = sorted(contours,key = cv2.contourArea, reverse = True)[:2]
 
+def rectify(h):
+	h = h.reshape((4,2))
+	hnew = np.zeros((4,2),dtype = np.float32)
+
+	add = h.sum(1)
+	hnew[0] = h[np.argmin(add)]
+	hnew[2] = h[np.argmax(add)]
+
+	diff = np.diff(h,axis = 1)
+	hnew[1] = h[np.argmin(diff)]
+	hnew[3] = h[np.argmax(diff)]
+
+	return hnew
+
 
 def fourCorners(cnt):
 	peri = cv2.arcLength(cnt, True)
@@ -39,9 +53,20 @@ def fourCorners(cnt):
 		print cv2.contourArea(cnt)
 		X,Y,W,H = cv2.boundingRect(cnt)
 		cv2.rectangle(origImg,(X,Y),(X+W,Y+H),(0,255,0),2)
+
+
 		cv2.drawContours(origImg,[approx],0,(0,0,255),2)
 
+		approx = rectify(approx)
+		picHeight = origImg.shape[1]
+		picWidth = origImg.shape[0]
+
+		pts2 = np.float32([[0,0],[picWidth,0],[picWidth,picHeight],[0,picHeight]])
+		M = cv2.getPerspectiveTransform(approx,pts2)
+		dst = cv2.warpPerspective(origImg,M,(800,800))
+
 		cv2.imshow('res',origImg)
+		cv2.imshow('dst',dst)
 		cv2.imshow('test',img2)
 		cv2.waitKey(0)
 	else:
