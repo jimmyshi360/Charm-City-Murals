@@ -25,14 +25,27 @@
     <script>
       mapboxgl.accessToken = 'pk.eyJ1Ijoic3RhbWJ5MSIsImEiOiJjam0ydW42cDczMmZ1M2twNDhreHBxZDltIn0.o5P0BsCRazfRE2fWTZzPFw';
       var map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/stamby1/cjm302iy60hnj2snt6u4r4s9l',
-      center: [-76.594960, 39.304647],
-      zoom: 12.1
-    });
+        container: 'map',
+        style: 'mapbox://styles/stamby1/cjm302iy60hnj2snt6u4r4s9l',
+        center: [-76.594960, 39.304647],
+        zoom: 12.1
+      });
     // code from the next step will go here
 
-    map.on('click', function(e) {
+    map.addControl(new mapboxgl.NavigationControl());
+
+    map.on('mouseenter', 'geodata-new', function(e) {
+      // Change the cursor style as a UI indicator.
+      map.getCanvas().style.cursor = 'pointer';
+    });
+
+    var popup = new mapboxgl.Popup({
+      closeOnClick: false,
+      offset: [0, -15]
+    })
+
+    map.on('mouseenter', 'geodata-new', function(e) {
+
       var features = map.queryRenderedFeatures(e.point, {
         layers: ['geodata-new'] // replace this with the name of the layer
       });
@@ -43,12 +56,19 @@
 
       var feature = features[0];
 
-      var popup = new mapboxgl.Popup({ offset: [0, -15] })
+      popup
         .setLngLat(feature.geometry.coordinates)
         .setHTML('<h3>' + feature.properties.address + '</h3><p>' + feature.properties.artists + '</p>')
         .setLngLat(feature.geometry.coordinates)
         .addTo(map);
     });
+
+    map.on('mouseleave', 'geodata-new', function() {
+      map.getCanvas().style.cursor = '';
+      popup.remove();
+    });
+
+
     </script>
   </body>
 </html>
