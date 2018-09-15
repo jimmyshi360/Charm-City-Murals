@@ -5,11 +5,11 @@ import numpy as np
 #path = 'wall-images/0.jpg' # works
 #path = 'wall-images/1.jpg'
 #path = 'wall-images/2.jpg' 
-path = 'wall-images/3.jpg'   # 2nd mode works 
+#path = 'wall-images/3.jpg'   # 2nd mode works 
 #path = 'wall-images/4.jpg'   # could use work
 #path = 'wall-images/5.jpg'   # somewhat works
 #path = 'wall-images/6.jpg'  # somewhat works   (uses 2nd mode)
-#path = 'wall-images/7.jpg'   
+path = 'wall-images/7.jpg'   
 #path = 'wall-images/8.jpg'   # could use work
 
 img = cv2.imread(path)
@@ -127,7 +127,7 @@ def defineLineBounds(imgUse,cnt):
 
 
 
-	#cv2.imshow('lowerThresh',thresh)
+	cv2.imshow('lowerThresh',thresh)
 	#cv2.imshow('upper',upperImg)
 	#cv2.imshow('lower',lowerImg)
 
