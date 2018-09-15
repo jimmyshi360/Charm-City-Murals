@@ -72,8 +72,8 @@ def defineLineBounds(imgUse,cnt):
 	lefty = int((-x*vy/vx) + y)
 	righty = int(((cols-x)*vy/vx)+y)
 
-	upperLeft = (cols-2, righty)
-	upperRight = (2,lefty)
+	upperRight = (cols-2, righty)
+	upperLeft = (2,lefty)
 
 	cv2.line(img,(cols-1,righty),(0,lefty),(0,255,0),2)
 
@@ -103,17 +103,27 @@ def defineLineBounds(imgUse,cnt):
 	righty = int(((cols-x)*vy/vx)+y+lowerBound+100)
 
 
-	lowerLeft = (cols-2, righty)
-	lowerRight = (2,lefty)
+	lowerRight = (cols-2, righty)
+	lowerLeft = (2,lefty)
 
 	cv2.line(img,(cols-1,righty),(0,lefty),(0,255,0),2)
 
+	# Preform warp transform
 
+	picWidth = origImg.shape[1]
+	picHeight = origImg.shape[0]
+
+	pts1 = np.float32([[upperLeft[0],upperLeft[1]],[upperRight[0],upperRight[1]],[lowerRight[0],lowerRight[1]],[lowerLeft[0],lowerLeft[1]]])
+	pts2 = np.float32([[0,0],[picWidth,0],[picWidth,picHeight],[0,picHeight]])
+	M = cv2.getPerspectiveTransform(pts1,pts2)
+	dst = cv2.warpPerspective(origImg,M,(picWidth,picHeight))
+	
 	# Drawing closing lines
 	cv2.line(img,upperLeft,lowerLeft,(0,255,0),2)
 	cv2.line(img,upperRight,lowerRight,(0,255,0),2)
 
-	cv2.waitKey(0)
+	cv2.imshow('warped',dst)
+
 
 	return img
 
