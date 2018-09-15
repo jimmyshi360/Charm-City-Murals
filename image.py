@@ -6,9 +6,9 @@ import numpy as np
 #path = 'images/1.jpg'   # works
 #path = 'images/2.jpg'   # somewhat works
 #path = 'images/3.jpg'  # works
-path = 'images/5.jpg'
+#path = 'images/5.jpg'
 #path = 'images/6.jpg'
-#path = 'images/7.jpg'   # works
+path = 'images/7.jpg'   # works
 
 img = cv2.imread(path)
 img = cv2.resize(img,(600,400))
