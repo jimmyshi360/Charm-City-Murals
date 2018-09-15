@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 
+#path = 'images/paper.jpg'
 #path = 'images/0.jpg'
 #path = 'images/1.jpg'
 #path = 'images/2.jpg'   # somewhat works
@@ -23,7 +24,7 @@ kernel = np.ones((9,9),np.uint8)
 thresh = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel)
 
 img2, contours, hierarchy = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-contours = sorted(contours,key = cv2.contourArea, reverse = True)[:5]
+contours = sorted(contours,key = cv2.contourArea, reverse = True)[:2]
 
 
 def fourCorners(cnt):
@@ -60,6 +61,19 @@ def cntAreaDetect(cnt):
 	print cv2.contourArea(cnt)
 	X,Y,W,H = cv2.boundingRect(cnt)
 	cv2.rectangle(origImg,(X,Y),(X+W,Y+H),(0,255,0),2)
+	cv2.drawContours(origImg, [cnt], -1, (0, 0, 255), 2)
+
+
+	# Extreme points
+	extLeft = tuple(cnt[cnt[:,:,0].argmin()][0])
+	extRight = tuple(cnt[cnt[:,:,0].argmax()][0])
+	extTop = tuple(cnt[cnt[:,:,1].argmin()][0])
+	extBot = tuple(cnt[cnt[:,:,1].argmax()][0])
+
+	cv2.circle(origImg, extLeft, 8, (0, 0, 255), -1)
+	cv2.circle(origImg, extRight, 8, (0, 255, 0), -1)
+	cv2.circle(origImg, extTop, 8, (255, 0, 0), -1)
+	cv2.circle(origImg, extBot, 8, (255, 255, 0), -1)
 
 	cv2.imshow('res',origImg)
 	cv2.imshow('test',img2)
