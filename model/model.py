@@ -1,58 +1,58 @@
-# Note, unstable. Just pushing upto server before finishing off.
+from __init__ import *
+
+import tensorflow as tf
+import numpy as np
 from tensorflow.contrib.layers import convolution2d, dropout, repeat
 from tensorflow.contrib.learn.python.learn.estimators import model_fn
-g = tf.Graph()
 
-BATCH_SIZE = 32
-WIDTH = 1000
-HEIGHT = 1000
-CHANNELS = 3
-
-def add_noise(images):
-    p = Augmentor.DataPipeline(images)
-    p.random_distortion(probability=1, grid_width=4, grid_height=4, magnitude=8)
-    p.flip_left_right(probability=0.5)
-    p.flip_top_bottom(probability=0.5)
-
-    augmented_images, _ = p.sample(100)
-    return augmented_images
+def create_labels():
+    a = np.identity(BATCH_SIZE)
+    b = np.zeros([BATCH_SIZE, BATCH_SIZE * 2])
+    b[:BATCH_SIZE, :BATCH_SIZE] = a
+    return b
 
 def left_tower(inputs):
-    # This is built on top of the existing network.
-    composites = inputs, counter_examples
-    left_conv = convolution2d(inputs=composites, num_outputs=16, kernel_size=5, stride=5,
-            padding='SAME', activation_fn=tf.nn.tanh, scope='left_conv')
-    left_pooled = tf.reshape(c3, [-1, 8 * 8 * 64])
-    return tf.layers.dense(inputs=left_conv, units=1024, activation=tf.nn.tanh)
-
-def right_tower(inputs, weights):
-    # Note that this scoping scheme must match the weights imported.
+    # This is additional to the existing network.
     c1 = convolution2d(inputs=inputs, num_outputs=16, kernel_size=5, stride=5,
-            padding='SAME', activation_fn=tf.nn.tanh, scope='conv1')
+            padding='SAME', activation_fn=tf.nn.tanh, scope='lconv1')
     c2 = convolution2d(inputs=c1, num_outputs=32, kernel_size=5, stride=5,
-            padding='SAME', activation_fn=tf.nn.tanh, scope='conv2')
+            padding='SAME', activation_fn=tf.nn.tanh, scope='lconv2')
     c3 = convolution2d(inputs=c2, num_outputs=64, kernel_size=5, stride=5,
-            padding='SAME', activation_fn=tf.nn.tanh, scope='conv3')
+            padding='SAME', activation_fn=tf.nn.tanh, scope='lconv3')
+    left_pooled = tf.reshape(c3, [-1, 8 * 8 * 64])
+    d = tf.layers.dense(inputs=left_pooled, units=1024, activation=tf.nn.tanh)
+    tf.identity(d, name="left")
+    return d, [c1, c2, c3, d]
+
+def right_tower(inputs):
+    # Note that this scoping scheme must match the weights imported.
+    trains = False
+    c1 = convolution2d(inputs=inputs, num_outputs=16, kernel_size=5, stride=5,
+            padding='SAME', activation_fn=tf.nn.tanh, scope='conv1', trainable=trains)
+    c2 = convolution2d(inputs=c1, num_outputs=32, kernel_size=5, stride=5,
+            padding='SAME', activation_fn=tf.nn.tanh, scope='conv2', trainable=trains)
+    c3 = convolution2d(inputs=c2, num_outputs=64, kernel_size=5, stride=5,
+            padding='SAME', activation_fn=tf.nn.tanh, scope='conv3', trainable=trains)
 
     right_pooled = tf.reshape(c3, [-1, 8 * 8 * 64])
-    return tf.layers.dense(inputs=right_pooled, units=1024,
-            activation=tf.nn.tanh)
+    d = tf.layers.dense(inputs=right_pooled, units=1024,
+            activation=tf.nn.tanh, trainable=trains)
+    tf.identity(d, name="right")
+    return d, [c1, c2, c3, d]
 
-def model_fn(g, inputs, counter_examples, weights):
-  with g.as_default():
-    [noisy_inputs] = add_noise([inputs])
-    composites = counter_examples
+def train_op(g, noisy_inputs, inputs):
+    # Construct the graph to train.
 
-    labels = tf.identity(
-            np.range(BATCH_SIZE, dtype=np.int32), name="labels")
+    labels = tf.identity(create_labels(), name="labels")
 
-    left = left_tower(noisy_inputs)
-    right = right_tower(composites)
-    logits = tf.matmul(left, right)
+    left, var2 = left_tower(noisy_inputs)
+    right, var = right_tower(inputs)
+    logits = tf.matmul(right, tf.transpose(left))
 
-    tf.losses.softmax_cross_entropy(logits=logits, labels=labels)
-    train_op = tf.contrib.layers.optimize_loss(loss=loss,
-            global_step=tf.contrib.framework.get_global_step(),
-            optimizer="Adam", learning_rate=LEARN_RATE)
+    loss = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits_v2(
+        logits=logits, labels=labels))
+
+    train_op = tf.train.AdamOptimizer(learning_rate=LEARN_RATE).minimize(loss=loss,
+        global_step=tf.train.get_global_step())
 
     return train_op
