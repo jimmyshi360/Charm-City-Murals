@@ -5,16 +5,20 @@ import numpy as np
 #path = 'wall-images/0.jpg' # works
 #path = 'wall-images/1.jpg'
 #path = 'wall-images/2.jpg' 
-#path = 'wall-images/3.jpg'   # 2nd mode works 
+path = 'wall-images/3.jpg'   # 2nd mode works 
 #path = 'wall-images/4.jpg'   # could use work
 #path = 'wall-images/5.jpg'   # somewhat works
-#path = 'wall-images/6.jpg'  # somewhat works   (uses 2nd mode)
-path = 'wall-images/7.jpg'   
+#path = 'wall-images/6.jpg'  # not too good when using 2nd mode
+#path = 'wall-images/7.jpg'   # works 
 #path = 'wall-images/8.jpg'   # could use work
+
+
+#path = 'images/5.jpg'    # could use some work
 
 img = cv2.imread(path)
 img = cv2.resize(img,(600,400))
 origImg = img.copy()
+globalThresh = None
 
 def getContours(img):
 	img2, contours, hierarchy = cv2.findContours(img,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
@@ -23,15 +27,15 @@ def getContours(img):
 	return contours
 
 def imagePreprocess(img):
+	global globalThresh
 	imgray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-	#origImgGray = imgray.copy()
-	#imgray = cv2.gaussianblur(imgray,(9,9),0)
-	#ret,thresh = cv2.threshold(imgray,127,255,cv2.THRESH_BINARY)
 	thresh = cv2.Canny(imgray,10,200)
 
 	# Morphology transform
 	kernel = np.ones((29,29),np.uint8)
 	thresh = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel)
+
+	globalThresh = thresh
 
 	return thresh
 
@@ -102,10 +106,14 @@ def defineLineBounds(imgUse,cnt):
 	rows,cols = imgT.shape[:2]
 	[vx,vy,x,y] = cv2.fitLine(contours[0], cv2.DIST_L2,0,0.01,0.01)
 
+	
 	lefty = int((-x*vy/vx) + y+lowerBound+100)
 	righty = int(((cols-x)*vy/vx)+y+lowerBound+100)
-
-
+	
+	'''
+	lefty = int((-x*vy/vx) + y+lowerBound)
+	righty = int(((cols-x)*vy/vx)+y+lowerBound)
+	'''
 	lowerRight = (cols-2, righty)
 	lowerLeft = (2,lefty)
 
@@ -138,6 +146,7 @@ def defineLineBounds(imgUse,cnt):
 
 
 def fourCorners(cnt):
+	global globalThresh
 	peri = cv2.arcLength(cnt, True)
 	approx = cv2.approxPolyDP(cnt, 0.05 * peri, True)
  
@@ -171,7 +180,7 @@ def fourCorners(cnt):
 
 		cv2.imshow('res',origImg)
 		cv2.imshow('dst',dst)
-		#cv2.imshow('test',img2)
+		cv2.imshow('globe',globalThresh)
 		cv2.waitKey(0)
 		
 	else:
