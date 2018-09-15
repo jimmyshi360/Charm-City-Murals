@@ -2,9 +2,17 @@ import os
 from flask import Flask, render_template
 app = Flask(__name__)
 
-@app.route("/")
+@app.route("/discover")
 def canvas():
     return render_template("canvas.html")
+
+@app.route("/map")
+def canvas():
+    return render_template("map.html")
+
+@app.route("/")
+def canvas():
+    return render_template("index.html")
 
 
 if (__name__ == '__main__'):
