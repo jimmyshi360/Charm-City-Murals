@@ -40,13 +40,13 @@ def main():
         train = train_op(g, noisy_inputs, inputs)
         feed_dict = load(g) 
 
+        validation_gen = Augmentor.Pipeline(FALSE_DIR)
+        # validation_gen.random_distortion(probability=1., grid_width=4, grid_height=4, magnitude=8)
+        validation_gen.resize(probability=1.0, width=WIDTH, height=HEIGHT)
+        validation_gen = validation_gen.keras_generator(batch_size=BATCH_SIZE, scaled=True)
         inputs_gen = Augmentor.Pipeline(TRUE_DIR)
         inputs_gen.resize(probability=1.0, width=WIDTH, height=HEIGHT)
         inputs_gen = inputs_gen.keras_generator(batch_size=BATCH_SIZE)
-        validation_gen = Augmentor.Pipeline(FALSE_DIR)
-        validation_gen.random_distortion(probability=1., grid_width=4, grid_height=4, magnitude=8)
-        validation_gen.resize(probability=1.0, width=WIDTH, height=HEIGHT)
-        validation_gen = validation_gen.keras_generator(batch_size=BATCH_SIZE, scaled=True)
         saver = tf.train.Saver()
         with tf.Session() as sess:
             sess.run(tf.global_variables_initializer())
