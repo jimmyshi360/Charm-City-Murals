@@ -29,7 +29,7 @@ contours = sorted(contours,key = cv2.contourArea, reverse = True)[:2]
 
 def fourCorners(cnt):
 	peri = cv2.arcLength(cnt, True)
-	approx = cv2.approxPolyDP(cnt, 0.02 * peri, True)
+	approx = cv2.approxPolyDP(cnt, 0.05 * peri, True)
  
 	# if our approximated contour has four points, then we
 	# can assume that we have found our screen
@@ -39,12 +39,19 @@ def fourCorners(cnt):
 		print cv2.contourArea(cnt)
 		X,Y,W,H = cv2.boundingRect(cnt)
 		cv2.rectangle(origImg,(X,Y),(X+W,Y+H),(0,255,0),2)
+		cv2.drawContours(origImg,[approx],0,(0,0,255),2)
 
 		cv2.imshow('res',origImg)
 		cv2.imshow('test',img2)
 		cv2.waitKey(0)
 	else:
 		print 'No corners detected'
+
+		cv2.drawContours(origImg,[approx],0,(0,0,255),2)
+
+		cv2.imshow('res',origImg)
+		cv2.imshow('test',img2)
+		cv2.waitKey(0)
 
 def slantCntDetect(cnt):
 	rect = cv2.minAreaRect(cnt)
@@ -84,8 +91,8 @@ def cntAreaDetect(cnt):
 for cnt in contours:
 	# approximate the contour
 
-	#fourCorners(cnt)
-	cntAreaDetect(cnt)
+	fourCorners(cnt)
+	#cntAreaDetect(cnt)
 	#slantCntDetect(cnt)
 
 	
