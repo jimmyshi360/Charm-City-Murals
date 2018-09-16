@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template
+from flask import Flask, request, render_template, jsonify
 app = Flask(__name__, static_url_path='')
 
 @app.route("/discover")
@@ -14,6 +14,13 @@ def map_page():
 def index():
     return render_template("index.html")
 
+
+# Out API
+@app.route("/api", methods=["POST"])
+def api():
+    # data = request.form['username']
+    meta = {"name": "The awesome mural", "artist": "Hop Hacks Dream Team", "date": "09/15/2018"}
+    return jsonify(meta)
 
 if (__name__ == '__main__'):
     # Bind to PORT if defined, otherwise default to 80.

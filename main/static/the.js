@@ -1,11 +1,11 @@
-console.clear();
-
 (function(){
 
 if (window.location.protocol !== "https:" ) {
   document.body.innerHTML = 'Must be https.';
-//  return;
+  return;
 }
+
+const ENDPOINT = "/api"
   
 navigator.getUserMedia  = navigator.getUserMedia ||
                           navigator.webkitGetUserMedia ||
@@ -27,12 +27,42 @@ if ( !navigator.getUserMedia ) { return false; }
   window.vid = video;
   
   function getWebcam(){ 
-  
     navigator.getUserMedia({ video: true, audio: false }, function(stream) {
       video.src = window.URL.createObjectURL(stream);
       track = stream.getTracks()[0];
     }, function(e) {
       console.error('Rejected!', e);
+    });
+  }
+
+  function getMetaData(data, callback) {
+    var formdata = new FormData();
+    formdata.append('file', data);
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function () {
+        if (this.readyState != 4) return;
+
+        if (this.status == 200) {
+            var metadata = JSON.parse(this.responseText);
+            callback(metadata);
+        }
+        
+        // end of state change: it can be after some time (async)
+    };
+
+    // xhr.open('POST', ENDPOINT, true);
+    xhr.open('POST', ENDPOINT);
+    xhr.setRequestHeader('Content-Type', 'multipart/form-data');
+    xhr.send(formdata);
+  }
+
+  function snap() {
+    let data = canvas.toDataURL("image/png");
+    getMetaData(data, (metadata)=>{
+        debugger
+        console.log(metadata);
     });
   }
   
@@ -92,12 +122,14 @@ if ( !navigator.getUserMedia ) { return false; }
   });
   
   canvas.addEventListener('click',function(){
+    /*
     if ( track ) {
       if ( track.stop ) { track.stop(); }
       track = null;
     } else {
-      getWebcam();
-    }
+    */
+    snap();
+    //}
   });
   
   
