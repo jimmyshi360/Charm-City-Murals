@@ -17,7 +17,7 @@ Describe the technical stack.
 Our application uses a wide range of tools and frameworks. First, we collected data from Stae City Data and the Baltimore City Government.
 1. Camera integration for users to discover new murals using their phone camera. Implemented with modern WebHTML5 capabilities.
 2. Object detection using OpenCV to process captured images, and Flask to send down information to our server.
-3. Extensive data exploration to aggregate training data for our CNN by scraping existing data
+3. Extensive data exploration to aggregate training data for our CNN by scraping existing data 
 → [Augmentor](https://arxiv.org/abs/1708.04680) was used to help supplement our sparse data set of 170 data points into countless accomodations.
 Utilized [transfer learning](https://www.cse.ust.hk/~qyang/Docs/2009/tkde_transfer_learning.pdf) from [TensorFlow Art](https://github.com/nitroventures/tensorflow-art) as an artwork classifier.
 4. Image comparison to categorize murals. Our model uses the machine learning principle of convolutional neural networks and is implemented with TensorFlow and NumPy.
