@@ -33,23 +33,22 @@ def build_eval_fn():
         sess.run(tf.global_variables_initializer())
         saver.restore(sess, "{}/model.ckpt-{}".format(CHECKPOINTS_DIR, 999))
         
-        [vectors] = sess.run([g.get_tensor_by_name("right:0")], feed_dict={inputs: images})
-        vectors /= np.linalg.norm(vectors, axis=0)
+        right_normed = tf.nn.l2_normalize(g.get_tensor_by_name("right:0"))
+        [vectors] = sess.run([right_normed], feed_dict={inputs: images})
         
         def eval_fn(query):
             if type(query) == None:
                 return {"has_mural": False}
 
-            [current] = sess.run([g.get_tensor_by_name("left:0")], feed_dict={noisy_inputs: query})
-            current /= np.linalg.norm(current, axis=1)
-            print(current.shape)
+            left_normed = tf.nn.l2_normalize(tf.transpose(g.get_tensor_by_name("left:0")))
+            [current] = sess.run([left_normed], feed_dict={noisy_inputs: query})
 
             ## TODO: Review math. something might be fishy.
-            result = np.matmul(vectors, current.T) / 2
+            result = np.matmul(vectors, current)
             index = np.argmax(result)
             print("Neural net results: ", result[index], index)      
-            # Always return classification
-            if True: #result[index] > THRESHOLD:
+            # Empirically determined threshhold.
+            if result[index] > THRESHOLD:
                 ## TODO: Return metadata associated with this index.
                 meta = data[index]
                 meta["has_mural"] = True
