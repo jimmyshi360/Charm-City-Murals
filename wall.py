@@ -21,6 +21,10 @@ img = cv2.resize(img,(600,400))
 origImg = img.copy()
 globalThresh = None
 
+#showWindows = True
+showWindows = False
+
+
 def getContours(img):
 	img2, contours, hierarchy = cv2.findContours(img,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
 	contours = sorted(contours,key = cv2.contourArea, reverse = True)[:2]
@@ -135,15 +139,15 @@ def defineLineBounds(imgUse,cnt):
 	cv2.line(img,upperRight,lowerRight,(0,255,0),2)
 
 
+	if showWindows:
+		cv2.imshow('lowerThresh',thresh)
+		#cv2.imshow('upper',upperImg)
+		#cv2.imshow('lower',lowerImg)
 
-	cv2.imshow('lowerThresh',thresh)
-	#cv2.imshow('upper',upperImg)
-	#cv2.imshow('lower',lowerImg)
-
-	cv2.imshow('warped',dst)
+		cv2.imshow('warped',dst)
 
 
-	return img
+	return img, [upperLeft, upperRight,lowerRight,lowerLeft]
 
 
 def fourCorners(cnt):
@@ -175,28 +179,38 @@ def fourCorners(cnt):
 		[vx,vy,x,y] = cv2.fitLine(cnt, cv2.DIST_L2,0,0.01,0.01)
 		lefty = int((-x*vy/vx) + y)
 		righty = int(((cols-x)*vy/vx)+y)
-		cv2.line(origImg,(cols-1,righty),(0,lefty),(255,0,0),2)
+		#cv2.line(origImg,(cols-1,righty),(0,lefty),(255,0,0),2)
 
+		res = origImg
 
+		bbox = cv2.minAreaRect(approx)
+                pts = cv2.boxPoints(bbox).astype(int)
+                lowerLeft = (pts[0][0],pts[0][1])
+                upperLeft = (pts[1][0],pts[1][1])
+                upperRight = (pts[2][0],pts[2][1])
+                lowerRight = (pts[3][0],pts[3][1])
 
-		cv2.imshow('res',origImg)
-		cv2.imshow('dst',dst)
-		cv2.imshow('globe',globalThresh)
+                boundingBox = [upperLeft, upperRight,lowerRight,lowerLeft]
+
+		if showWindows:
+			cv2.imshow('dst',dst)
+			cv2.imshow('globe',globalThresh)
 		
 	else:
 		print 'No corners detected'
 		cnt = approx
 
-		res = defineLineBounds(origImg,cnt)
+		res,boundingBox = defineLineBounds(origImg,cnt)
 
+
+	textWrite = 'This is Wall A'
+    	cv2.putText(origImg,textWrite,(10,40),font,1,(255,255,255),1,cv2.LINE_AA)	
+	if showWindows:
 		cv2.imshow('res',res)
+		cv2.waitKey(0)
 
-	#textWrite = 'This is Mural A'
-    	#cv2.putText(origImg,textWrite,(10,40),font,1,(255,255,255),1,cv2.LINE_AA)	
-	cv2.waitKey(0)
-
-
-	return True
+	print boundingBox
+	return res, boundingBox
 
 
 def slantCntDetect(cnt):
@@ -205,9 +219,10 @@ def slantCntDetect(cnt):
 	box = np.int0(box)
 	cv2.drawContours(origImg,[box],0,(0,0,255),2)
 
-	cv2.imshow('res',origImg)
-	cv2.imshow('test',img2)
-	cv2.waitKey(0)
+	if showWindows:
+		cv2.imshow('res',origImg)
+		cv2.imshow('test',img2)
+		cv2.waitKey(0)
 
 def cntAreaDetect(cnt):
 	#cv2.drawContours(origImg, [screenCnt], -1, (0, 255, 0), 2)
@@ -236,13 +251,12 @@ def cntAreaDetect(cnt):
 thresh = imagePreprocess(img)
 contours = getContours(thresh)
 
-for cnt in contours:
-	# approximate the contour
+def getPointsOfWall():
+	for cnt in contours:
+		# approximate the contour
 
-	if fourCorners(cnt):
-		break
-	#cntAreaDetect(cnt)
-	#slantCntDetect(cnt)
+		return fourCorners(cnt)
 
-	
+
+#getPointsOfWall()
 

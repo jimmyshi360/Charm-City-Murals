@@ -24,6 +24,9 @@ path = 'images/3.jpg'  # works
 #path = 'images/5.jpg'    # could use some work
 font = cv2.FONT_HERSHEY_SIMPLEX
 
+#showWindows = True
+showWindows = False
+
 
 img = cv2.imread(path)
 img = cv2.resize(img,(600,400))
@@ -142,12 +145,13 @@ def defineLineBounds(imgUse,cnt):
 	cv2.line(img,upperRight,lowerRight,(0,255,0),2)
 
 
+	
+	if showWindows:
+		cv2.imshow('lowerThresh',thresh)
+		#cv2.imshow('upper',upperImg)
+		#cv2.imshow('lower',lowerImg)
 
-	cv2.imshow('lowerThresh',thresh)
-	#cv2.imshow('upper',upperImg)
-	#cv2.imshow('lower',lowerImg)
-
-	cv2.imshow('warped',dst)
+		cv2.imshow('warped',dst)
 
 
 	return img, [upperLeft, upperRight,lowerRight,lowerLeft]
@@ -186,8 +190,9 @@ def fourCorners(cnt):
 
 		res = origImg.copy()
 
-		cv2.imshow('dst',dst)
-		cv2.imshow('globe',globalThresh)
+		if showWindows:
+			cv2.imshow('dst',dst)
+			cv2.imshow('globe',globalThresh)
 	
 		bbox = cv2.minAreaRect(approx)
 		pts = cv2.boxPoints(bbox).astype(int)
@@ -205,15 +210,17 @@ def fourCorners(cnt):
 		res, boundingBox = defineLineBounds(origImg,cnt)
 
 		
-	print boundingBox
 
 	textWrite = 'This is Mural A'
         cv2.putText(res,textWrite,(10,40),font,1,(255,255,255),1,cv2.LINE_AA)
-	cv2.imshow('res',res)
-	cv2.waitKey(0)
+	
 
+	if showWindows:
+		cv2.imshow('res',res)
+		cv2.waitKey(0)
 
-	return boundingBox
+	print boundingBox	
+	return res, boundingBox
 
 
 
