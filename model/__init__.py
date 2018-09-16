@@ -5,7 +5,7 @@ HEIGHT = 1000
 CHANNELS = 3
 THRESHOLD = 0.6
 
-TRAIN_STEP = 1000
+TRAIN_STEP = 10000
 BATCH_SIZE = 15
 
 FROZEN_CHECKPOINTS_DIR = "/home/bltar/HopHacksDreamTeam/model/checkpoints/tensorflow-art"

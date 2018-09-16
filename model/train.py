@@ -50,12 +50,16 @@ def main():
         saver = tf.train.Saver()
         with tf.Session() as sess:
             sess.run(tf.global_variables_initializer())
+            writer = tf.summary.FileWriter("./logs") 
+            writer.add_graph(g)
+            summary = tf.summary.merge_all() 
             for i in range(TRAIN_STEP):
                 feed_dict = {}
                 feed_dict[inputs], _ = next(inputs_gen)
                 validation, _ = next(validation_gen)
                 saver.save(sess, "./checkpoints/baltar/model.ckpt-{}".format(i))
                 feed_dict[noisy_inputs] = np.vstack([add_noise(feed_dict[inputs]), validation])
-                sess.run([train], feed_dict=feed_dict)
+                _, s = sess.run([train, summary], feed_dict=feed_dict)
+                writer.add_summary(s, i)
 
 main()

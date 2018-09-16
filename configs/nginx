@@ -18,9 +18,23 @@
 #	return 301 https://$host$request_uri;
 #}
 
+server { 
+
+	server_name tensorboard.charmcitymurals.com;
+	location / {
+        include proxy_params;
+        proxy_pass http://127.0.0.1:6006; #unix:/home/bltar/HopHacksDreamTeam/murals.sock;
+	    proxy_set_header Host      $host;
+	    proxy_set_header X-Real-IP $remote_addr;
+	}
+}
+
+
 # Default server configuration
 #
 server {
+
+  client_max_body_size 10028M;
 
 	# SSL configuration
 	#

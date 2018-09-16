@@ -47,9 +47,7 @@ if ( !navigator.getUserMedia ) { return false; }
     var data = data.replace('data:image/png;base64,', '');
 
     var xhr = new XMLHttpRequest();
-    var formData = new FormData();
     // formData.append("file", data);
-    formData.append("testing", "Hello");
     xhr.onreadystatechange = function () {
         if (this.readyState != 4) return;
 
@@ -99,6 +97,8 @@ ctx.fillText(text,posData-20,50);
 
    }
 
+  var has_mural = false;
+  var display_text = "Here is a mural."
 
   var prevData = null;
   function snap() {
@@ -111,10 +111,11 @@ ctx.fillText(text,posData-20,50);
         // TODO(Anthony)
         // Render bounding box and text to canvas
         console.log(metadata);
+        has_mural = metadata['has_mural']
         if(metadata['has_mural']){
 	        drawBoundingBox(metadata);
-            //writingText('Here is a mural',metadata);
-                        
+            // writingText('Here is a mural',metadata);
+            display_text = metadata["artistFirstName"] + " " +metadata["artistLastName"] + ", " + metadata["YEAR"] + ", " + metadata["location"]
         }
         let dataTmp = canvas.toDataURL("image/png");
         getMetaData(dataTmp, fn);
@@ -147,17 +148,19 @@ ctx.fillText(text,posData-20,50);
     // ctx.fillStyle = "#FFF";
     // ctx.fillRect(0, 0, width, height);
 	
-    ctx.strokeStyle = "#7CFC00";
-	ctx.lineWidth = 5;
-	ctx.beginPath();
-	ctx.moveTo(bb1[0],bb1[1]);
-	ctx.lineTo(bb2[0],bb2[1]);
-	ctx.lineTo(bb3[0],bb3[1]);
-	ctx.lineTo(bb4[0],bb4[1]);
-	ctx.lineTo(bb1[0],bb1[1]);
-	ctx.stroke();	
+    if(has_mural) {
+      ctx.strokeStyle = "#7CFC00";
+      ctx.lineWidth = 5;
+      ctx.beginPath();
+      ctx.moveTo(bb1[0],bb1[1]);
+      ctx.lineTo(bb2[0],bb2[1]);
+      ctx.lineTo(bb3[0],bb3[1]);
+      ctx.lineTo(bb4[0],bb4[1]);
+      ctx.lineTo(bb1[0],bb1[1]);
+      ctx.stroke();	
 
-    writingText('Here is a mural',bb1[1]);
+      writingText(display_text, bb1[1]);
+    }
 
     
     ctx.save();

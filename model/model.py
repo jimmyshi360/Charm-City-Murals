@@ -52,6 +52,11 @@ def train_op(g, noisy_inputs, inputs):
     loss = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits_v2(
         logits=logits, labels=labels))
 
+    tf.summary.scalar("loss", loss) 
+    tf.summary.image("examples", noisy_inputs) 
+    tf.summary.image("matching", tf.reshape(tf.nn.l2_normalize(logits), [1,
+BATCH_SIZE, BATCH_SIZE * 2, 1]))
+
     train_op = tf.train.AdamOptimizer(learning_rate=LEARN_RATE).minimize(loss=loss,
         global_step=tf.train.get_global_step())
 
