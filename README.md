@@ -8,7 +8,7 @@ Using the web domain www.charmcitymurals.com, users can explore a virtual map of
 
 ## Why does this matter?
 
-Baltimore is a city of creatives. Local artists use their work as a way to connect people and communities, and to express the city's unique history and personality so central to the it's identity. This application showcases the much lauded artistic scene in Baltimore City, yet also reveals a deeply rich past, and a dynamic, complex present permeating throughout the nation. Most importantly, however, murals express the current social and political climate, sometimes strongly enough to become a form of activism and bring to light the community's struggles. Overall, this application encourages our residents to explore the city and is an important step forward in celebrating and acknowledging public art as a voice of charm city. 
+Baltimore is a city of creatives. Local artists use their work as a way to connect people and communities, and to express the city's unique history and personality so central to its identity. This application showcases the much lauded artistic scene in Baltimore City, yet also reveals a deeply rich past, and a dynamic, complex present permeating throughout the nation. Most importantly, however, murals express the current social and political climate, sometimes strongly enough to become a form of activism and bring to light the community's struggles. Overall, this application encourages our residents to explore the city and is an important step forward in celebrating and acknowledging public art as a voice of charm city. 
 
 For example-- Freddie Gray murals, Baltimore Love Project
 
@@ -17,8 +17,8 @@ For example-- Freddie Gray murals, Baltimore Love Project
 Our application uses a wide range of tools and frameworks. Many thanks, to Stae
 City Data and the Baltimore City Government for their data sources.
 1. Uses cutting-edge HTML5 to bring AR to your phone browser, making our
-experience immediately avaibile to everyone.
-2. Built on top of the light weight microframework Flask, to helpcreate a robust API
+experience immediately available to everyone.
+2. Built on top of the light weight microframework Flask, to help create a robust API.
 3. Uses custom segmentation code and object detection code for murals, using the power of OpenCV.
 4. Extensive data exploration in bash to aggregate and expand training data for our CNN by using city data images.
 5. Implements [Augmentor](https://arxiv.org/abs/1708.04680) to help supplement
@@ -30,16 +30,16 @@ neural network for unsupervised feature comparision. This essentially builds a
 "mural vector space" allowing the model, allowing for any murals to be quickly
 lookup and compared.
 8. Used [Tensorboard](http://tensorboard.charmcitymurals.com/) for training
-  validation and great vizulizations.
+  validation and great visualizations.
 9. Augmented Reality using HTML and data derived from OpenCV to provide information as overlay on the captured image.
-10. Frontend implemented using Bootstrap, [particle.js](https://vincentgarreau.com/particles.js), parallax scrolling, and [MapBox](mapbox.com/studio)
+10. Frontend implemented using Bootstrap, [particle.js](https://vincentgarreau.com/particles.js), Smooth Parallax scrolling, and [MapBox](mapbox.com/studio)
 11. Services: Domain name using domain.com and server using Google Cloud Compute systems.
 
 ### What's next?
 
-- Allow artists to virutally display their ideas onto a wall to see what it
-  would look like. Note, [we did prototype this](https://github.com/jshi22/HopHacksDreamTeam/blob/master/scratch/wall.py)
-- Upload this "virutal" mural and allow the community to vote on it- represents community's values
+- Allow artists to virtually display their ideas onto a wall to see what it
+  would look like. Note, [we did prototype this.](https://github.com/jshi22/HopHacksDreamTeam/blob/master/scratch/wall.py)
+- Upload this "virtual" mural and allow the community to vote on it- represents community's values
 - Aggregate data so all markers have images
 - Virtual tour of Baltimore by mural hopping
 
