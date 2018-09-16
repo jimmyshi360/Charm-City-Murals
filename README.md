@@ -18,11 +18,11 @@ Our application uses a wide range of tools and frameworks. First, we collected d
 1. Camera integration for users to discover new murals using their phone camera. Implemented with modern WebHTML5 capabilities.
 2. Object detection using OpenCV to process captured images, and Flask to send down information to our server.
 3. Extensive data exploration to aggregate training data for our CNN by scraping existing data 
-→ [Augmentor](https://arxiv.org/abs/1708.04680) was used to help supplement our sparse data set of 170 data points into countless accomodations.
-Utilized [transfer learning](https://www.cse.ust.hk/~qyang/Docs/2009/tkde_transfer_learning.pdf) from [TensorFlow Art](https://github.com/nitroventures/tensorflow-art) as an artwork classifier.
+- [Augmentor](https://arxiv.org/abs/1708.04680) was used to help supplement our sparse data set of 170 data points into countless accomodations.
+- Utilized [transfer learning](https://www.cse.ust.hk/~qyang/Docs/2009/tkde_transfer_learning.pdf) from [TensorFlow Art](https://github.com/nitroventures/tensorflow-art) as an artwork classifier.
 4. Image comparison to categorize murals. Our model uses the machine learning principle of convolutional neural networks and is implemented with TensorFlow and NumPy.
-→ This is a variation of unsupervised learning. Our model uses a dual encoder model to compare unsupervised feature vectors. This essentially builds a "mural vector space" allowing the model to not be constrained by the number of murals that can be compared.
-→ [Tensorboard](http://tensorboard.charmcitymurals.com/)
+- This is a variation of unsupervised learning. Our model uses a dual encoder model to compare unsupervised feature vectors. This essentially builds a "mural vector space" allowing the model to not be constrained by the number of murals that can be compared.
+- [Tensorboard](http://tensorboard.charmcitymurals.com/)
 5. Augmented reality using OpenCV displays the mural information as overlay on the captured image.
 6. Frontend implemented using Bootstrap, [particle.js](https://vincentgarreau.com/particles.js), parallax scrolling, and [MapBox](mapbox.com/studio)
 7. Domain name using domain.com and server using Google Cloud computing systems.
