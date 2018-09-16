@@ -1,6 +1,7 @@
 import os
 from flask import Flask, request, render_template, jsonify
 app = Flask(__name__, static_url_path='')
+app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 1024
 
 @app.route("/discover")
 def canvas():
@@ -21,7 +22,7 @@ def api():
     meta = {"name": "The awesome mural", "artist": "Hop Hacks Dream Team", "date": "09/15/2018", "bounding_box":[(100, 100),(300, 30),(250, 220),(90, 250)]}
     return jsonify(meta)
 
-if (__name__ == '__main__'):
-    # Bind to PORT if defined, otherwise default to 80.
-    port = int(os.environ.get('PORT', 443))
-    app.run(host='0.0.0.0', port=port, ssl_context='adhoc')
+#if (__name__ == '__main__'):
+# Bind to PORT if defined, otherwise default to 80.
+#    port = int(os.environ.get('PORT', 8000))
+#    app.run(host='0.0.0.0', port=port)
