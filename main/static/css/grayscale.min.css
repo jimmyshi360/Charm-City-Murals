@@ -306,6 +306,24 @@ z-index: 5;
   line-height: 1em;
 }
 
+
+.ml15 {
+  color: #ffffff;
+  padding: 0px 0;
+  font-family:'Varela Round';
+  font-weight: 400;
+  font-size: 1em;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  overflow: hidden;
+  padding-left:5em
+}
+
+.ml15 .letter {
+  display: inline-block;
+  line-height: 0.5em;
+}
+
 .skyline{
 
 position:absolute;
@@ -324,7 +342,6 @@ z-index: 1;
 
 html, body {
     max-width: 100%;
-    overflow-x: hidden;
 }
 
 img {
@@ -335,4 +352,25 @@ img {
 .container{
 
 z-index: 1;
+}
+.navbar-default{
+       background-color:#ffa500;
+}
+
+#parent{
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+#child{
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    padding-right: 17px; /* Increase/decrease this value for cross-browser compatibility */
+    box-sizing: content-box; /* So the width will be 100% + 17px */
+}
+
+a {
+    color: #ffa500;
 }
