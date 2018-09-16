@@ -34,14 +34,16 @@ def build_eval_fn():
             index = np.argmax(result)
                   
             if result[index] > THRESHOLD:
-                print("Result is likely this.", index, result)
                 ## TODO: Return metadata associated with this index.
+                meta = metas[index]
+                meta["has_mural"] = True
+                return meta
             else:
-                print("probably not this", index, result)
-                ## TODO: Return a negative result
+                return {"has_mura": False}
+
         return eval_fn
 
 eval_fn = build_eval_fn()
 
 # example
-eval_fn(np.random.rand(1, 1000, 1000, 3))
+# eval_fn(np.random.rand(1, 1000, 1000, 3))
