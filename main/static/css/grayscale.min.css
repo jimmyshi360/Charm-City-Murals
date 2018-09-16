@@ -148,9 +148,11 @@
     padding-top:10rem;
     background:-webkit-gradient(linear,left top,left bottom,from(#161616),color-stop(75%,rgba(22,22,22,.9)),to(rgba(22,22,22,.8)));
     background:linear-gradient(to bottom,#161616 0,rgba(22,22,22,.9) 75%,rgba(22,22,22,.8) 100%)
+    z-index: 1;
 }
 .about-section p{
     margin-bottom:5rem
+    z-index: 1;
 }
 .projects-section{
     padding:10rem 0
@@ -258,7 +260,7 @@ footer{
     padding:5rem 0
 }
  #particles-js{
-     background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url(baltimore_at_night.jpg);
+     background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url(sky.jpeg);
     height: 500px;
 
     /* Create the parallax scrolling effect */
@@ -266,13 +268,14 @@ footer{
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    z-index: -2;
 }
 
 .logo{
 position:absolute;
   top: 0;
   left:0;
-
+z-index: 5;
  animation: example1 1.5s ease;
 }
 /* Move it (define the animation) */
@@ -288,15 +291,48 @@ position:absolute;
 .ml16 {
   color: #ffffff;
   padding: 40px 0;
+  align: center;
+  font-family:'Varela Round';
   font-weight: 800;
   font-size: 3em;
   text-transform: uppercase;
-  letter-spacing: 0.5em;
+  letter-spacing: 0.3em;
   overflow: hidden;
-  padding-left:3em
+  padding-left:2em
 }
 
 .ml16 .letter {
   display: inline-block;
   line-height: 1em;
+}
+
+.skyline{
+
+position:absolute;
+  top: -50;
+  left:0;
+z-index: 0;
+}
+
+.back{
+
+position:absolute;
+  top: -50;
+  left:0;
+z-index: 1;
+}
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  z-index: 0;
+}
+
+.container{
+
+z-index: 1;
 }
