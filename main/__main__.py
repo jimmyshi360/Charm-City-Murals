@@ -1,6 +1,15 @@
+import preprocess
 import os
+import sys
 from random import random
 from flask import Flask, request, render_template, jsonify
+import base64
+
+# Local imports. We'd resolve this is we had time to refactor
+sys.path.append('/home/bltar/HopHacksDreamTeam/')
+import model
+
+
 app = Flask(__name__, static_url_path='')
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 1024
 
@@ -19,16 +28,17 @@ def index():
 # Out API
 @app.route("/api", methods=["POST"])
 def api():
-    #if 'file' not in request.files:
-    #    return ""
-    # data = request.form['data']
-    if random() > 0.25:
-        meta = {"has_mural":True, "name": "The awesome mural", "artist": "Hop Hacks Dream Team", "date": "09/15/2018", "bounding_box":[(100, 100),(300, 30),(250, 220),(90, 250)]}
-    elif random() > 0.5:
-        meta = {"has_mural":True, "name": "The awesome mural", "artist": "Hop Hacks Dream Team", "date": "09/15/2018", "bounding_box":[(90, 60),(310, 50),(200, 220),(80, 150)]}
-    elif random() > 0.5:
-        meta = {"has_mural":False}
-    return jsonify(meta)
+    meta = {"has_mural": False}
+    if not request.data:
+        return jsonify(meta)
+    res, cont = preprocess.getPointsOfMural(request.data)
+    print 'After'
+    # print(z, type(z))
+    # meta["has_mural"] = True
+    meta = model.eval.eval_fn(res)
+    meta = {"has_mural": True}
+    meta["bounding_box"] = cont
+    return jsonify(meta)    
 
 #if (__name__ == '__main__'):
 # Bind to PORT if defined, otherwise default to 80.

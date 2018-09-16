@@ -13,3 +13,4 @@ CHECKPOINTS_DIR = "/home/bltar/HopHacksDreamTeam/model/checkpoints/baltar"
 TRUE_DIR =  "/home/bltar/HopHacksDreamTeam/model/images/true"
 FALSE_DIR = "/home/bltar/HopHacksDreamTeam/model/images/false"
 
+import eval

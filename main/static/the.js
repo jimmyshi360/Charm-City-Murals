@@ -12,7 +12,14 @@ navigator.getUserMedia  = navigator.getUserMedia ||
                           navigator.mozGetUserMedia ||
                           navigator.msGetUserMedia;
 
+const constraints = {
+    advanced: [{
+        facingMode: "environment"
+    }]
+};
+
 if ( !navigator.getUserMedia ) { return false; }
+
   
   var width = 0, height = 0;
   
@@ -27,7 +34,7 @@ if ( !navigator.getUserMedia ) { return false; }
   window.vid = video;
   
   function getWebcam(){ 
-    navigator.getUserMedia({ video: true, audio: false }, function(stream) {
+    navigator.getUserMedia({ video: constraints, audio: false }, function(stream) {
       video.src = window.URL.createObjectURL(stream);
       track = stream.getTracks()[0];
     }, function(e) {
@@ -36,8 +43,13 @@ if ( !navigator.getUserMedia ) { return false; }
   }
 
   function getMetaData(data, callback) {
-    var xhr = new XMLHttpRequest();
+    console.log(data)
+    var data = data.replace('data:image/png;base64,', '');
 
+    var xhr = new XMLHttpRequest();
+    var formData = new FormData();
+    // formData.append("file", data);
+    formData.append("testing", "Hello");
     xhr.onreadystatechange = function () {
         if (this.readyState != 4) return;
 
@@ -51,18 +63,9 @@ if ( !navigator.getUserMedia ) { return false; }
 
     // xhr.open('POST', ENDPOINT, true);
     xhr.open('POST', ENDPOINT, true);
-    // xhr.setRequestHeader('Content-Type', '');
-
-    xhr.onreadystatechange = function receiveResponse() {
-
-            if (this.readyState == 4) {
-                    xhr.send(data);
-                if (this.status == 200) {
-                } else if (!isValid(this.response) && this.status == 0) {
-                    console.log("There appears to be a 500 problem");
-                }
-            }
-        };
+    // xhr.setRequestHeader('Content-Type', 'multipart/form-data');
+    // xhr.send({"thing":"Hello"});
+    xhr.send(data);
   }
 
 var bb1 = 0
@@ -103,13 +106,8 @@ var bb4 = 0
                         
         }
         let dataTmp = canvas.toDataURL("image/png");
-        if(metadata['has_mural']){
-            prevData = dataTmp;
-            getMetaData(dataTmp, fn);
-        } else {
-            getMetaData(prevData, fn);
+        getMetaData(dataTmp, fn);
 
-        }
     };
     getMetaData(data, fn)
   }
@@ -196,6 +194,23 @@ var bb4 = 0
     snap();
     //}
   });
-  
+
+  let resize = function () {
+
+      // Our canvas must cover full height of screen
+      // regardless of the resolution
+      let height = window.innerHeight;
+
+      // So we need to calculate the proper scaled width
+      // that should work well with every resolution
+      let ratio = canvas.width/canvas.height;
+      let width = height * ratio;
+
+      canvas.style.width = width+'px';
+      canvas.style.height = height+'px';
+  }
+  resize();
+  window.addEventListener('resize', resize, true);
+  document.body.webkitRequestFullScreen();
   
 })()
