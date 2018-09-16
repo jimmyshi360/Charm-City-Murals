@@ -1,5 +1,58 @@
 
+particlesJS("particles-js2", {
+	"particles": {
+						"number": {
+							"value": 80,
+							"density": {
+								"enable": true
+							},
 
+						},
+						"color": {
+							"value": ["#fff"]
+						},
+						"opacity": {
+							"value": 0.6,
+							"random": false,
+								"anim": {
+									"enable": true,
+									"speed": 1,
+									"opacity_min": 0.4,
+									"sync": false
+								}
+						},
+						"shape": {
+							"type": "circle"
+						},
+						"size": {
+							"value": 1,
+							"random": true
+						},
+						"line_linked": {
+							"enable": true
+						},
+						"move": {
+							"enable": true,
+							"speed": 1,
+							"random": true,
+							"direction": "none",
+							"straight": false
+						}
+				},
+				"interactivity": {
+						"detect_on": "canvas",
+						"events": {
+								"onhover": {
+									"enable": true
+								}
+							},
+					"modes": {
+						"push": {
+							"particles_nb": 3
+						}
+				}
+		}
+});
 
 particlesJS("particles-js", {
   "particles": {
