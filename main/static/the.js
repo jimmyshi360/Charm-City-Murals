@@ -36,6 +36,8 @@ if ( !navigator.getUserMedia ) { return false; }
   }
 
   function getMetaData(data, callback) {
+    return callback({"name": "The awesome mural", "artist": "Hop Hacks Dream Team", "date": "09/15/2018", "bounding_box":[(100, 100),(300, 30),(250, 220),(90, 250)]});
+    // I'll fix!
     var formdata = new FormData();
     formdata.append('file', data);
 
@@ -61,6 +63,8 @@ if ( !navigator.getUserMedia ) { return false; }
   function snap() {
     let data = canvas.toDataURL("image/png");
     getMetaData(data, (metadata)=>{
+        // TODO(Anthony)
+        // Render bounding box and text to canvas
         debugger
         console.log(metadata);
     });
@@ -78,6 +82,10 @@ if ( !navigator.getUserMedia ) { return false; }
     
     loopFrame = requestAnimationFrame(loop);
     
+    // Track points near bounding box from 1 frame to another.
+    // ^ Find lib?
+
+
     //ctx.clearRect(0, 0, width, height);
     
     // ctx.globalAlpha = 0.005;

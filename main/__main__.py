@@ -14,12 +14,11 @@ def map_page():
 def index():
     return render_template("index.html")
 
-
 # Out API
 @app.route("/api", methods=["POST"])
 def api():
-    # data = request.form['username']
-    meta = {"name": "The awesome mural", "artist": "Hop Hacks Dream Team", "date": "09/15/2018"}
+    # data = request.form['data']
+    meta = {"name": "The awesome mural", "artist": "Hop Hacks Dream Team", "date": "09/15/2018", "bounding_box":[(100, 100),(300, 30),(250, 220),(90, 250)]}
     return jsonify(meta)
 
 if (__name__ == '__main__'):
