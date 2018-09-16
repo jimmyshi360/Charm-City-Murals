@@ -32,11 +32,7 @@ def api():
     if not request.data:
         return jsonify(meta)
     res, cont = preprocess.getPointsOfMural(request.data)
-    print 'After'
-    # print(z, type(z))
-    # meta["has_mural"] = True
     meta = model.eval.eval_fn(res)
-    meta = {"has_mural": True}
     meta["bounding_box"] = cont
     return jsonify(meta)    
 

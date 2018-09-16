@@ -9,7 +9,7 @@ TRAIN_STEP = 1000
 BATCH_SIZE = 15
 
 FROZEN_CHECKPOINTS_DIR = "/home/bltar/HopHacksDreamTeam/model/checkpoints/tensorflow-art"
-CHECKPOINTS_DIR = "/home/bltar/HopHacksDreamTeam/model/checkpoints/baltar"
+CHECKPOINTS_DIR = "/home/bltar/HopHacksDreamTeam/model/checkpoints/working"
 TRUE_DIR =  "/home/bltar/HopHacksDreamTeam/model/images/true"
 FALSE_DIR = "/home/bltar/HopHacksDreamTeam/model/images/false"
 

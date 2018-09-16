@@ -72,6 +72,12 @@ var bb1 = 0
 var bb2 = 0
 var bb3 = 0
 var bb4 = 0
+var clicked = false;
+ function writingText(text,posData){
+ctx.font = "30px Arial";
+ctx.fillText(text,posData-20,50);
+
+  }
 
 
   function drawBoundingBox(metadata){
@@ -96,6 +102,10 @@ var bb4 = 0
 
   var prevData = null;
   function snap() {
+    if(clicked){
+        return;
+    }
+    clicked = true;
     let data = canvas.toDataURL("image/png");
     let fn = (metadata)=>{
         // TODO(Anthony)
@@ -103,6 +113,7 @@ var bb4 = 0
         console.log(metadata);
         if(metadata['has_mural']){
 	        drawBoundingBox(metadata);
+            //writingText('Here is a mural',metadata);
                         
         }
         let dataTmp = canvas.toDataURL("image/png");
@@ -146,6 +157,7 @@ var bb4 = 0
 	ctx.lineTo(bb1[0],bb1[1]);
 	ctx.stroke();	
 
+    writingText('Here is a mural',bb1[1]);
 
     
     ctx.save();

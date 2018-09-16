@@ -47,8 +47,9 @@ def build_eval_fn():
             ## TODO: Review math. something might be fishy.
             result = np.matmul(vectors, current.T) / 2
             index = np.argmax(result)
-            print(result[index], index)      
-            if result[index] > THRESHOLD:
+            print("Neural net results: ", result[index], index)      
+            # Always return classification
+            if True: #result[index] > THRESHOLD:
                 ## TODO: Return metadata associated with this index.
                 meta = data[index]
                 meta["has_mural"] = True
