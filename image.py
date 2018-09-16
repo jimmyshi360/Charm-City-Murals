@@ -6,7 +6,7 @@ import numpy as np
 #path = 'images/0.jpg'   # works
 #path = 'images/1.jpg'   # works
 #path = 'images/2.jpg'   # somewhat works
-#path = 'images/3.jpg'  # works
+path = 'images/3.jpg'  # works
 #path = 'images/5.jpg'
 #path = 'images/6.jpg'   
 #path = 'images/7.jpg'   # works
@@ -18,10 +18,12 @@ import numpy as np
 #path = 'images/14.jpg'
 #path = 'images/15.jpg'
 #path = 'images/16.jpg'   
-path = 'images/17.jpg'     # works 
+#path = 'images/17.jpg'     # works 
 
 
 #path = 'images/5.jpg'    # could use some work
+font = cv2.FONT_HERSHEY_SIMPLEX
+
 
 img = cv2.imread(path)
 img = cv2.resize(img,(600,400))
@@ -105,10 +107,6 @@ def defineLineBounds(imgUse,cnt):
 	lowerImg = imgT
 
 	thresh = imagePreprocess(imgT)
-	#imgray = cv2.cvtColor(imgT, cv2.COLOR_BGR2GRAY)
-	#imgray = cv2.GaussianBlur(imgray,(9,9),0)
-	#origImgGray = imgray.copy()
-	#ret,thresh = cv2.threshold(imgray,127,255,cv2.THRESH_BINARY)
 
 	lowerThresh = thresh
 
@@ -121,7 +119,6 @@ def defineLineBounds(imgUse,cnt):
 	lefty = int((-x*vy/vx) + y+lowerBound+100)
 	righty = int(((cols-x)*vy/vx)+y+lowerBound+100)
 	'''
-	print y
 	lefty = int((-x*vy/vx) + y+lowerBound)
 	righty = int(((cols-x)*vy/vx)+y+lowerBound)
 
@@ -153,7 +150,7 @@ def defineLineBounds(imgUse,cnt):
 	cv2.imshow('warped',dst)
 
 
-	return img
+	return img, [upperLeft, upperRight,lowerRight,lowerLeft]
 
 
 def fourCorners(cnt):
@@ -185,72 +182,51 @@ def fourCorners(cnt):
 		[vx,vy,x,y] = cv2.fitLine(cnt, cv2.DIST_L2,0,0.01,0.01)
 		lefty = int((-x*vy/vx) + y)
 		righty = int(((cols-x)*vy/vx)+y)
-		cv2.line(origImg,(cols-1,righty),(0,lefty),(255,0,0),2)
+		#cv2.line(origImg,(cols-1,righty),(0,lefty),(255,0,0),2)
 
+		res = origImg.copy()
 
-
-		cv2.imshow('res',origImg)
 		cv2.imshow('dst',dst)
 		cv2.imshow('globe',globalThresh)
-		cv2.waitKey(0)
-		
+	
+		bbox = cv2.minAreaRect(approx)
+		pts = cv2.boxPoints(bbox).astype(int)
+		lowerLeft = (pts[0][0],pts[0][1])
+		upperLeft = (pts[1][0],pts[1][1])
+		upperRight = (pts[2][0],pts[2][1])
+		lowerRight = (pts[3][0],pts[3][1])
+
+		boundingBox = [upperLeft, upperRight,lowerRight,lowerLeft]
+	
 	else:
 		print 'No corners detected'
 		cnt = approx
 
-		res = defineLineBounds(origImg,cnt)
+		res, boundingBox = defineLineBounds(origImg,cnt)
 
-		cv2.imshow('res',res)
-		cv2.waitKey(0)
+		
+	print boundingBox
 
-
-	return True
-
-
-def slantCntDetect(cnt):
-	rect = cv2.minAreaRect(cnt)
-	box = cv2.boxPoints(rect)
-	box = np.int0(box)
-	cv2.drawContours(origImg,[box],0,(0,0,255),2)
-
-	cv2.imshow('res',origImg)
-	cv2.imshow('test',img2)
-	cv2.waitKey(0)
-
-def cntAreaDetect(cnt):
-	#cv2.drawContours(origImg, [screenCnt], -1, (0, 255, 0), 2)
-	print cv2.contourArea(cnt)
-	X,Y,W,H = cv2.boundingRect(cnt)
-	cv2.rectangle(origImg,(X,Y),(X+W,Y+H),(0,255,0),2)
-	cv2.drawContours(origImg, [cnt], -1, (0, 0, 255), 2)
-
-
-	# Extreme points
-	extLeft = tuple(cnt[cnt[:,:,0].argmin()][0])
-	extRight = tuple(cnt[cnt[:,:,0].argmax()][0])
-	extTop = tuple(cnt[cnt[:,:,1].argmin()][0])
-	extBot = tuple(cnt[cnt[:,:,1].argmax()][0])
-
-	cv2.circle(origImg, extLeft, 8, (0, 0, 255), -1)
-	cv2.circle(origImg, extRight, 8, (0, 255, 0), -1)
-	cv2.circle(origImg, extTop, 8, (255, 0, 0), -1)
-	cv2.circle(origImg, extBot, 8, (255, 255, 0), -1)
-
-	cv2.imshow('res',origImg)
-	cv2.imshow('test',img2)
+	textWrite = 'This is Mural A'
+        cv2.putText(res,textWrite,(10,40),font,1,(255,255,255),1,cv2.LINE_AA)
+	cv2.imshow('res',res)
 	cv2.waitKey(0)
 
 
-thresh = imagePreprocess(img)
-contours = getContours(thresh)
+	return boundingBox
 
-for cnt in contours:
-	# approximate the contour
 
-	if fourCorners(cnt):
-		break
-	#cntAreaDetect(cnt)
-	#slantCntDetect(cnt)
+
+def getPointsOfMural():
+	thresh = imagePreprocess(img)
+	contours = getContours(thresh)
+
+	for cnt in contours:
+		# approximate the contour
+
+		return fourCorners(cnt)
+		
 
 	
 
+#getPointsOfMural()

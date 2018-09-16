@@ -14,6 +14,7 @@ path = 'wall-images/3.jpg'   # 2nd mode works
 
 
 #path = 'images/5.jpg'    # could use some work
+font = cv2.FONT_HERSHEY_SIMPLEX
 
 img = cv2.imread(path)
 img = cv2.resize(img,(600,400))
@@ -181,7 +182,6 @@ def fourCorners(cnt):
 		cv2.imshow('res',origImg)
 		cv2.imshow('dst',dst)
 		cv2.imshow('globe',globalThresh)
-		cv2.waitKey(0)
 		
 	else:
 		print 'No corners detected'
@@ -190,7 +190,10 @@ def fourCorners(cnt):
 		res = defineLineBounds(origImg,cnt)
 
 		cv2.imshow('res',res)
-		cv2.waitKey(0)
+
+	#textWrite = 'This is Mural A'
+    	#cv2.putText(origImg,textWrite,(10,40),font,1,(255,255,255),1,cv2.LINE_AA)	
+	cv2.waitKey(0)
 
 
 	return True
