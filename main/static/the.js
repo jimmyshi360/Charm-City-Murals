@@ -36,13 +36,7 @@ if ( !navigator.getUserMedia ) { return false; }
   }
 
   function getMetaData(data, callback) {
-    // I'll fix!
-    // var formdata = new FormData();
-    // formdata.append('file', data);
-
-    debugger
     var xhr = new XMLHttpRequest();
-
 
     xhr.onreadystatechange = function () {
         if (this.readyState != 4) return;
@@ -61,11 +55,39 @@ if ( !navigator.getUserMedia ) { return false; }
     xhr.send(data);
   }
 
+var bb1 = 0
+var bb2 = 0
+var bb3 = 0
+var bb4 = 0
+
+
+  function drawBoundingBox(metadata){
+	bb1 = metadata['bounding_box'][0]
+	bb2 = metadata['bounding_box'][1]
+	bb3 = metadata['bounding_box'][2]
+	bb4 = metadata['bounding_box'][3]
+	
+	ctx.strokeStyle = "#7CFC00";
+	ctx.lineWidth = 5;
+	ctx.beginPath();
+	ctx.moveTo(bb1[0],bb1[1]);
+	ctx.lineTo(bb2[0],bb2[1]);
+	ctx.lineTo(bb3[0],bb3[1]);
+	ctx.lineTo(bb4[0],bb4[1]);
+	ctx.lineTo(bb1[0],bb1[1]);
+	ctx.stroke();	
+
+
+   }
+
+
+
   function snap() {
     let data = canvas.toDataURL("image/png");
     getMetaData(data, (metadata)=>{
         // TODO(Anthony)
         // Render bounding box and text to canvas
+	    drawBoundingBox(metadata);
         console.log(metadata);
     });
   }
@@ -91,6 +113,18 @@ if ( !navigator.getUserMedia ) { return false; }
     // ctx.globalAlpha = 0.005;
     // ctx.fillStyle = "#FFF";
     // ctx.fillRect(0, 0, width, height);
+
+	ctx.strokeStyle = "#7CFC00";
+	ctx.lineWidth = 5;
+	ctx.beginPath();
+	ctx.moveTo(bb1[0],bb1[1]);
+	ctx.lineTo(bb2[0],bb2[1]);
+	ctx.lineTo(bb3[0],bb3[1]);
+	ctx.lineTo(bb4[0],bb4[1]);
+	ctx.lineTo(bb1[0],bb1[1]);
+	ctx.stroke();	
+
+
     
     ctx.save();
     
