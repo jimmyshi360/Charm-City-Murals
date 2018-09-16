@@ -40,7 +40,7 @@ def api():
     meta["bounding_box"] = cont
     return jsonify(meta)    
 
-#if (__name__ == '__main__'):
+if (__name__ == '__main__'):
 # Bind to PORT if defined, otherwise default to 80.
-#    port = int(os.environ.get('PORT', 8000))
-#    app.run(host='0.0.0.0', port=port)
+    port = int(os.environ.get('PORT', 8000))
+    app.run(host='0.0.0.0', port=port)

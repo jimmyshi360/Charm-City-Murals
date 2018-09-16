@@ -22,11 +22,7 @@
     <link href="css/grayscale.min.css" rel="stylesheet">
 
   </head>
-<style type="text/css">
-body {
-    overflow:hidden;
-}
-</style>
+
   <body id="page-top" >
 
 <div class = 'logo'>
@@ -49,8 +45,8 @@ body {
 
 </script>
 
-<img class="skyline" src="../images/banv1.png" smooth-parallax start-position-y="-0.68"smooth-parallax start-position-x="-0.02">
-<img class="skyline" src="../images/banv2.png" smooth-parallax start-position-y="-0.7"smooth-parallax start-position-x="-0.05">
+<img class="skyline" src="../images/banv1.png" smooth-parallax start-position-y="-0.5"smooth-parallax end-position-y="-0.5"smooth-parallax start-position-x="-0.02">
+<img class="skyline" src="../images/banv3.png" smooth-parallax start-position-y="-0.5"smooth-parallax end-position-y="-0.55"smooth-parallax start-position-x="-0.03">
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
       <div class="container">
@@ -62,42 +58,93 @@ body {
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#about">Image View</a>
+              <a class="nav-link js-scroll-trigger" href="#map">Image View</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#about2">Camera View</a>
+              <a class="nav-link js-scroll-trigger" href="#camera">Camera View</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#tech">Technical Stack</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
 
-    <section id="about" class="about-section text-center">
+    <section id="map" class="about-section text-center">
       <div class="container">
-
         <div class="row">
           <div class="col-lg-8 mx-auto">
             <h2 class="text-white mb-4">Map View</h2>
-
             <p><button type="button" class="btn btn-outline-warning" ><a href="map">Explore Data</a></button></p>
-
             <p class="text-white-50">Here you can explore and view murals pinpointed on the Baltimore map.</p>
           </div>
         </div>
-        <img src="images/mapboximg.jpg" class="img-fluid" alt="">
+        <img src="images/map-screenshot.png" class="img-fluid" alt="">
       </div>
     </section>
 
-    <section id="about2" class="about-section text-center">
+    <section id="camera" class="about-section text-center">
       <div class="container">
         <div class="row">
           <div class="col-lg-8 mx-auto">
             <h2 class="text-white mb-4">Camera View</h2>
-            <p><<button type="button" class="btn btn-outline-warning" ><a href="discover">Discover Mural!</a></button></p>
+            <p><<button type="button" class="btn btn-outline-warning" ><a href="discover">Discover Murals!</a></button></p>
             <p class="text-white-50">Explore a mural in AR!</p>
           </div>
         </div>
         <img src="images/mural.jpg" class="img-fluid" alt="">
+      </div>
+    </section>
+
+    <section id="tech" class="about-section text-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <h2 class="text-white mb-4">Technical Stack</h2>
+            <p class="text-white-50">
+            Thank you to <a href="https://stae.co/hop-hacks/">Stae City Data</a> and the <a href="https://data.baltimorecity.gov/Culture-Arts/Baltimore-City-Murals-Project-1987-to-Present/zqh4-9ud5">Baltimore City Government</a> for providing extensive data on Baltimore city murals.<br><br>Now for a look behind the magic...</p>
+            <p class="text-white-50">1. <strong><u>Camera integration</u></strong> for users to discover new murals using their phone camera. Implemented with modern WebHTML5 capabilities.</p>
+            <p class="text-white-50">2. <strong><u>Object detection</u></strong> using OpenCV to process captured images, and Flask to send down information to our server.</p>
+            <p class="text-white-50">3. <strong><u>Extensive data exploration</u></strong> to aggregate training data for our CNN by scraping existing data<br>
+            → <a href="https://arxiv.org/abs/1708.04680">Augmentor</a> was used to help supplement our sparse data set of 170 data points into countless accomodations.<br>
+            → Utilized <a href="https://www.cse.ust.hk/~qyang/Docs/2009/tkde_transfer_learning.pdf">transfer learning</a> from <a href="https://github.com/nitroventures/tensorflow-art">TensorFlow Art</a> as an artwork classifier.</p>
+            <p class="text-white-50">4. <strong><u>Image comparison</u></strong> to categorize murals. Our model uses the machine learning principle of convolutional neural networks and is implemented with TensorFlow and NumPy.<br>
+                       → This is a variation of <strong><u>unsupervised learning</u></strong>. Our model uses a dual encoder model to compare unsupervised feature vectors. This essentially builds a "mural vector space" allowing the model to not be constrained by the number of murals that can be compared.</p>
+            <p class="text-white-50">5. <strong><u>Augmented reality</u></strong> using OpenCV displays the mural information as overlay on the captured image.</p>
+            <p class="text-white-50">6. <strong><u>Frontend</u></strong> implemented using Bootstrap, <a href="https://vincentgarreau.com/particles.js/">particle.js</a>, parallax scrolling, and <a href="mapbox.com/studio">MapBox</a></p>
+            <p class="text-white-50">7. <strong><u>Domain</u></strong> name and server using Google Cloud computing systems.</p>
+
+            <div>
+              <img class="mySlides" src="https://www.w3schools.com/howto/img_woods_wide.jpg">
+              <img class="mySlides" src="https://www.w3schools.com/howto/img_5terre_wide.jpg">
+              <img class="mySlides" src="https://www.w3schools.com/howto/img_mountains_wide.jpg">
+              <img class="mySlides" src="https://www.w3schools.com/howto/img_lights_wide.jpg">
+              <button text-align="center" position="absoluteonclick="plusDivs(-1)">&#10094;</button>
+              <button text-align="center" onclick="plusDivs(+1)">&#10095;</button>
+
+              <script>
+                var slideIndex = 1;
+                showDivs(slideIndex);
+
+                function plusDivs(n) {
+                    showDivs(slideIndex += n);
+                }
+
+                function showDivs(n) {
+                    var i;
+                    var x = document.getElementsByClassName("mySlides");
+                    if (n > x.length) {slideIndex = 1} 
+                    if (n < 1) {slideIndex = x.length} ;
+                    for (i = 0; i < x.length; i++) {
+                        x[i].style.display = "none"; 
+                    }
+                    x[slideIndex-1].style.display = "block"; 
+                }
+              </script>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
