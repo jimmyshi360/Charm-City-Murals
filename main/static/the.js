@@ -36,11 +36,6 @@ if ( !navigator.getUserMedia ) { return false; }
   }
 
   function getMetaData(data, callback) {
-    return callback({"name": "The awesome mural", "artist": "Hop Hacks Dream Team", "date": "09/15/2018", "bounding_box":[[100, 100],[300, 30],[250, 220],[90, 250]]});
-    // I'll fix!
-    var formdata = new FormData();
-    formdata.append('file', data);
-
     var xhr = new XMLHttpRequest();
 
     xhr.onreadystatechange = function () {
@@ -55,9 +50,19 @@ if ( !navigator.getUserMedia ) { return false; }
     };
 
     // xhr.open('POST', ENDPOINT, true);
-    xhr.open('POST', ENDPOINT);
-    xhr.setRequestHeader('Content-Type', 'multipart/form-data');
-    xhr.send(formdata);
+    xhr.open('POST', ENDPOINT, true);
+    // xhr.setRequestHeader('Content-Type', '');
+
+    xhr.onreadystatechange = function receiveResponse() {
+
+            if (this.readyState == 4) {
+                    xhr.send(data);
+                if (this.status == 200) {
+                } else if (!isValid(this.response) && this.status == 0) {
+                    console.log("There appears to be a 500 problem");
+                }
+            }
+        };
   }
 
 var bb1 = 0
@@ -86,16 +91,27 @@ var bb4 = 0
    }
 
 
-
+  var prevData = null;
   function snap() {
     let data = canvas.toDataURL("image/png");
-    getMetaData(data, (metadata)=>{
+    let fn = (metadata)=>{
         // TODO(Anthony)
         // Render bounding box and text to canvas
-	drawBoundingBox(metadata);
-	//debugger
         console.log(metadata);
-    });
+        if(metadata['has_mural']){
+	        drawBoundingBox(metadata);
+                        
+        }
+        let dataTmp = canvas.toDataURL("image/png");
+        if(metadata['has_mural']){
+            prevData = dataTmp;
+            getMetaData(dataTmp, fn);
+        } else {
+            getMetaData(prevData, fn);
+
+        }
+    };
+    getMetaData(data, fn)
   }
   
   getWebcam();
@@ -105,7 +121,9 @@ var bb4 = 0
       centerX,
       centerY,
       twoPI = Math.PI * 2;
-  
+ 
+
+ 
   function loop(){
     
     loopFrame = requestAnimationFrame(loop);
@@ -119,8 +137,8 @@ var bb4 = 0
     // ctx.globalAlpha = 0.005;
     // ctx.fillStyle = "#FFF";
     // ctx.fillRect(0, 0, width, height);
-
-	ctx.strokeStyle = "#7CFC00";
+	
+    ctx.strokeStyle = "#7CFC00";
 	ctx.lineWidth = 5;
 	ctx.beginPath();
 	ctx.moveTo(bb1[0],bb1[1]);
@@ -133,7 +151,6 @@ var bb4 = 0
 
     
     ctx.save();
-    
     
     // ctx.beginPath();
     // ctx.arc( centerX, centerY, 140, 0, twoPI , false);

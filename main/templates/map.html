@@ -25,14 +25,14 @@
       mapboxgl.accessToken = 'pk.eyJ1Ijoic3RhbWJ5MSIsImEiOiJjam0ydW42cDczMmZ1M2twNDhreHBxZDltIn0.o5P0BsCRazfRE2fWTZzPFw';
       var map = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/stamby1/cjm3wck5o1bxe2snmr8v3uxxl',
+      style: 'mapbox://styles/stamby1/cjm4ggc2c1tec2squt9scnnfn',
       center: [-76.594960, 39.304647],
       zoom: 12.1
     });
     // code from the next step will go here
     map.on('click', function(e) {
       var features = map.queryRenderedFeatures(e.point, {
-        layers: ['geodata-new'] // replace this with the name of the layer
+        layers: ['geodata-final'] // replace this with the name of the layer
       });
       if (!features.length) {
         return;
@@ -53,7 +53,7 @@
         image = image.substring(2, image.length-2)
         var popup = new mapboxgl.Popup({ offset: [0, -15] })
           .setLngLat(feature.geometry.coordinates)
-          .setHTML('<h3>' + feature.properties.address + '</h3><p>' + "Created by " + artists + '</p>' + '<a href=“' + image + '”><img src="' + image + '" style="width:300px;height:200px;"></a>')
+          .setHTML('<h3>' + feature.properties.address + '</h3><p>' + "Created by " + artists + '</p>' + '<a href=“'+ image + '”><img src="' + image + '" style="width:300px;height:200px;"></a>')
           .setLngLat(feature.geometry.coordinates)
           .addTo(map);
 
@@ -70,7 +70,7 @@
     map.addControl(new mapboxgl.NavigationControl());
     </script>
 
-    <button onclick="goBack()">Go Back</button>
+    <button onclick="goBack()" position="absolute">Go Back</button>
 
     <script>
       function goBack() {
