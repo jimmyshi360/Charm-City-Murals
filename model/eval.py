@@ -31,7 +31,7 @@ def build_eval_fn():
         saver = tf.train.Saver()
         sess = tf.Session()
         sess.run(tf.global_variables_initializer())
-        saver.restore(sess, "{}/model.ckpt-{}".format(CHECKPOINTS_DIR, 999))
+        saver.restore(sess, "{}/model.ckpt-{}".format(CHECKPOINTS_DIR, 692))
         
         right_normed = tf.nn.l2_normalize(g.get_tensor_by_name("right:0"))
         [vectors] = sess.run([right_normed], feed_dict={inputs: images})

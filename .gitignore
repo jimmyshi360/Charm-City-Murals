@@ -113,3 +113,6 @@ venv.bak/
 .dmypy.json
 dmypy.json
 
+.idea
+.DS_Store
+

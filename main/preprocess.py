@@ -140,7 +140,6 @@ def defineLineBounds(origImg, imgUse,cnt):
 
 def normalizeBB(shapeAR,box):
     resList = []
-    print shapeAR.shape
     xSh,ySh,_ = shapeAR.shape
 
     for coord in box:
@@ -160,7 +159,6 @@ def fourCorners(img, origImg, cnt):
     if len(approx) == 4:
         #screenCnt = approx
         cnt = approx
-        print cv2.contourArea(cnt)
         X,Y,W,H = cv2.boundingRect(cnt)
 
         approxRec = rectify(approx)
@@ -217,13 +215,11 @@ def getPointsOfMural(imgStr):
 
     for cnt in contours:
         # approximate the contour
-        print 'Entering'
         res,boundingBox = fourCorners(img, origImg, cnt)
 
         res = cv2.cvtColor(res, cv2.COLOR_BGRA2BGR) 
         res = cv2.resize(res,(1000,1000))
         res = np.reshape(res, [1,1000,1000,3])
-        print boundingBox
 
         return res, boundingBox
     return None, None
