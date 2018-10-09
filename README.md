@@ -3,7 +3,7 @@
 Charm City Murals is an augmented reality application that allows users to discover the Baltimore mural landscape from their phones. This project incorporates machine learning techniques, computer vision, and extensive front-end technologies.
 
 ![](https://media.giphy.com/media/cRNbBPOAmLdkdbnXhB/giphy.gif)
-![alt text](https://imgur.com/KltToVr)
+![alt text](https://i.imgur.com/KltToVr.png)
 ## How does it work?
 
 Users can explore a virtual map of Baltimore. The map displays designated markers of murals, all of which were documented by STAE and the Baltimore City Government. A simple touch of the screen (or the click of a button on laptops) displays the location, creators, and image of the selected mural. Scrolling further down, users can use their camera to identify a mural while out in the city of Baltimore. Pointing the camera to any given mural will display relevant details about the artwork in Augmented Reality. 
