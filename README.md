@@ -1,6 +1,6 @@
 # https://www.charmcitymurals.com/
 
-Charm City Murals is an augmented reality application that allows users to discover the Baltimore mural landscape from their phones. This project incorporates machine learning techniques, computer vision, and extensive front-end technologies.
+Charm City Murals is an Augmented Reality application that allows users to discover the Baltimore mural landscape from their phones through a webapp. This project incorporates machine learning techniques, computer vision, and a smooth front-end experience.
 
 ![](https://media.giphy.com/media/cRNbBPOAmLdkdbnXhB/giphy.gif)
 ![alt text](https://i.imgur.com/KltToVr.png)
