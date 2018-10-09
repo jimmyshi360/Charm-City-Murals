@@ -1,4 +1,4 @@
-# www.charmcitymurals.com
+# https://www.charmcitymurals.com/
 
 Charm City Murals is an augmented reality application that allows users to discover the Baltimore mural landscape from their phones. This project incorporates machine learning techniques, computer vision, and extensive front-end technologies.
 
@@ -6,7 +6,7 @@ Charm City Murals is an augmented reality application that allows users to disco
 ![alt text](https://image.ibb.co/fzLp9z/Screen_Shot_2018_09_17_at_10_20_44_PM.png)
 ## How does it work?
 
-Using the web domain www.charmcitymurals.com, users can explore a virtual map of Baltimore. The map displays designated markers of murals, all of which were documented by STAE and the Baltimore City Government. A simple touch of the screen (or the click of a button on laptops) displays the location, creators, and image of the selected mural. Scrolling further down, users can use their camera to identify a mural while out in the city of Baltimore. Pointing the camera to any given mural will display relevant details about the artwork through overlayed text. 
+Users can explore a virtual map of Baltimore. The map displays designated markers of murals, all of which were documented by STAE and the Baltimore City Government. A simple touch of the screen (or the click of a button on laptops) displays the location, creators, and image of the selected mural. Scrolling further down, users can use their camera to identify a mural while out in the city of Baltimore. Pointing the camera to any given mural will display relevant details about the artwork in Augmented Reality. 
 
 ## Why does this matter?
 
@@ -14,7 +14,7 @@ Baltimore is a city of creatives. Local artists use their work as a way to conne
 
 For example-- Freddie Gray murals, Baltimore Love Project
 
-## Describe the technical stack.
+## Technical stack.
 
 Our application uses a wide range of tools and frameworks. Many thanks, to Stae
 City Data and the Baltimore City Government for their data sources.
