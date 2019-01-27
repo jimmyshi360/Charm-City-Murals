@@ -1,6 +1,5 @@
-cv2==latest
-numpy==latest
-base64==latest
-skimage.io==latest
-Flask==latest
+cv2
+numpy
+skimage
+Flask
 tensorflow==1.11.0
