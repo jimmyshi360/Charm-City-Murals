@@ -1,0 +1,7 @@
+cv2==latest
+numpy==latest
+base64==latest
+skimage.io==latest
+Flask==latest
+tensorflow==1.11.0
+numpy==1.15.2
