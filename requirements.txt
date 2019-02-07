@@ -1,4 +1,5 @@
 numpy
-scikit-image
+skimage
 Flask
 tensorflow==1.11.0
+cv2
