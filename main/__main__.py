@@ -7,7 +7,6 @@ import base64
 
 # Local imports. We'd resolve this is we had time to refactor
 sys.path.append('/home/bltar/HopHacksDreamTeam/')
-import model
 
 
 app = Flask(__name__, static_url_path='')
@@ -29,12 +28,7 @@ def index():
 @app.route("/api", methods=["POST"])
 def api():
     meta = {"has_mural": False}
-    if not request.data:
-        return jsonify(meta)
-    res, cont = preprocess.getPointsOfMural(request.data)
-    meta = model.eval.eval_fn(res)
-    meta["bounding_box"] = cont
-    return jsonify(meta)    
+    return jsonify(meta)
 
 if (__name__ == '__main__'):
 # Bind to PORT if defined, otherwise default to 80.
