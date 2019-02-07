@@ -32,5 +32,5 @@ def api():
 
 if (__name__ == '__main__'):
 # Bind to PORT if defined, otherwise default to 80.
-    port = int(os.environ.get('PORT', 8000))
+    port = process.env.PORT||'8080';
     app.run(host='0.0.0.0', port=port)
