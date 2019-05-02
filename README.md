@@ -35,7 +35,7 @@ For example-- Freddie Gray murals, Baltimore Love Project
 
 Our application uses a wide range of tools and frameworks. Many thanks, to Stae
 City Data and the Baltimore City Government for their data sources.
-1. Uses cutting-edge HTML5 to bring AR to your phone browser, making our
+1. HTML5 to bring AR to your phone browser, making our
    experience immediately available to everyone.
 2. Built on top of the light weight microframework Flask, to help create a
    robust API.
