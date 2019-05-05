@@ -2,7 +2,7 @@
 import os
 import sys
 from random import random
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template, jsonify, send_from_directory
 import base64
 
 # Local imports. We'd resolve this is we had time to refactor
@@ -12,6 +12,10 @@ sys.path.append('/home/bltar/HopHacksDreamTeam/')
 app = Flask(__name__, static_url_path='')
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 1024
 
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
 @app.route("/discover")
 def canvas():
     return render_template("canvas.html")
