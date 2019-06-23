@@ -1,4 +1,4 @@
-# https://www.charmcitymurals.com/ (Currently down, working on restoring)
+#https://jimmyshi360.github.io/charmcity/
 
 Charm City Murals is an Augmented Reality application that allows users to
 discover the Baltimore mural landscape from their phones through a webapp. This
